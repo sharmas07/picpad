@@ -1,2 +1,2 @@
-const baseURL = "http://localhost:8080"
+const baseURL = "https://picpad-api.onrender.com"
 export default baseURL
