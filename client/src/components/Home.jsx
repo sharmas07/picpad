@@ -9,7 +9,6 @@ const Home = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState();
   const handleCode = async (e) => {
-    
     setIsLoading(true);
     e.preventDefault();
     console.log(code);
@@ -17,7 +16,7 @@ const Home = () => {
       console.log()
       const { data } = await axios.post(`${baseURL}/checkuser`, {username:code});
       console.log(data);
-      if (data && code.length >=1) {
+      if (data) {
         localStorage.setItem("username", data.username);
         navigate("/gallery");
       }
@@ -42,11 +41,7 @@ const Home = () => {
           type="text"
           value={code}
           onChange={(e) => {
-            const newCode = e.target.value;
-            if (newCode.length >= 1) {
-                setCode(newCode);
-            }
-            
+            setCode(e.target.value);
           }}
         />
         <button
