@@ -6,11 +6,19 @@ import baseURL from "../baseURL";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isInvalidCodeLength, setIsInvalidCodeLength] = useState(false);
+
   const navigate = useNavigate();
   const [code, setCode] = useState();
   const handleCode = async (e) => {
-    setIsLoading(true);
+    setIsLoading(false);
+    setIsInvalidCodeLength(false);
     e.preventDefault();
+    if(code.length < 3){
+      setIsInvalidCodeLength(true);
+      return;
+    }
+    setIsLoading(true);
     console.log(code);
     try {
       console.log()
@@ -52,7 +60,8 @@ const Home = () => {
           Open
         </button>
       </form>
-      {isLoading && <h1>loading...</h1>}
+      {isLoading && <h1 className="text-red-500">loading...</h1>}
+      {isInvalidCodeLength && <h1 className="text-red-500">code length has to be atleast 3 characters</h1>}
     </div>
   );
 };

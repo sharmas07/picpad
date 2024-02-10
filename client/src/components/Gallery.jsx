@@ -5,7 +5,7 @@ import baseURL from "../baseURL";
 
 const Gallery = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('username');
+  const token = localStorage.getItem("username");
   const checkAuth = () => {
     if (!token) {
       navigate("/");
@@ -20,21 +20,26 @@ const Gallery = () => {
       try {
         const username = localStorage.getItem("username");
         const { data } = await axios.post(`${baseURL}/getimages`, { username });
-        console.log(data);
-        setImages(data);
+      
+        if(data){
+          if (data[0]?.images) {
+            setImages(images);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
     };
     getImagesOfUser();
   }, []);
-  
-  const getImagesOfUser = async () => {
+
+  const getImagesOfUserAfterUploading = async () => {
     try {
       const username = localStorage.getItem("username");
       const { data } = await axios.post(`${baseURL}/getimages`, { username });
       console.log(data);
       setImages(data);
+      console.log("at line 39")      
     } catch (error) {
       console.log(error);
     }
@@ -43,11 +48,11 @@ const Gallery = () => {
     try {
       // Create a FormData object
       const formData = new FormData();
-      console.log(formData)
+      console.log(formData);
       formData.append("image", image);
       formData.append("username", localStorage.getItem("username"));
       //   Send the image file to the backend API
-      console.log("uploading image...")
+      console.log("uploading image...");
       const response = await axios.post(`${baseURL}/addimage`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -56,8 +61,8 @@ const Gallery = () => {
 
       // Handle the response from the backend if needed
       console.log("Image uploaded successfully:", response.data);
-      getImagesOfUser();
-      setImage(null)
+      getImagesOfUserAfterUploading();
+      setImage(null);
     } catch (error) {
       // Handle error
       console.error("Error uploading image:", error);
@@ -67,7 +72,7 @@ const Gallery = () => {
   const handleImageChange = (e) => {
     // Get the selected image file
     const selectedImage = e.target.files[0];
-    console.log("selected image",selectedImage);
+    console.log("selected image", selectedImage);
     setImage(selectedImage);
   };
 
@@ -78,10 +83,11 @@ const Gallery = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-[33rem] max-h-[33rem] bg-gray-800 m-4 p-3 rounded-2xl">
+    <div className="flex flex-col items-center justify-center min-h-[33rem] max-h-[33rem] bg-gray-800 p-3 rounded-2xl">
       <h1 className="text-4xl mb-8 text-white font-bold">Gallery</h1>
       <div className="flex flex-wrap justify-center gap-4 overflow-y-scroll min-h-[20rem] max-w-[44rem]">
-        {images && 
+        {images &&
+          images.length > 0 &&
           images.map((item, index) => {
             return (
               <div
@@ -93,7 +99,7 @@ const Gallery = () => {
             );
           })}
 
-        <div className="container mx-auto px-4">
+        <div className="w-40 h-40 object-cover">
           <input
             type="file"
             onChange={handleImageChange}
@@ -105,11 +111,13 @@ const Gallery = () => {
             className="img_container rounded-lg overflow-hidden cursor-pointer bg-gray-200 flex items-center justify-center w-40 h-40"
           >
             {image ? (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Selected Image"
-                className="w-full h-full object-cover"
-              />
+              typeof image === "object" && (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected Image"
+                  className="w-full h-full object-cover"
+                />
+              )
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +135,11 @@ const Gallery = () => {
               </svg>
             )}
           </label>
-          <button onClick={uploadImage} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-4" disabled={!image}>
+          <button
+            onClick={uploadImage}
+            className="w-[10rem] mt-1 hover:cursor-pointer hover:bg-purple-700 bg-purple-500 text-white py-2 px-4 rounded"
+            disabled={!image}
+          >
             Upload Image
           </button>
         </div>

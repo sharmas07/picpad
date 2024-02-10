@@ -68,7 +68,7 @@ const getAllImagesOfUser = async(req, res)=>{
         const {username} = req.body;
         if(!username) return res.send("username not found")
         const userImages = await ImagesModel.find({username});
-        return res.send(userImages[0].images)
+        return res.send(userImages)
     } catch (error) {
         return res.send(error.message)
     }
