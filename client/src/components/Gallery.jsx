@@ -20,11 +20,9 @@ const Gallery = () => {
       try {
         const username = localStorage.getItem("username");
         const { data } = await axios.post(`${baseURL}/getimages`, { username });
-      
+        const {images} = data[0];
         if(data){
-          if (data[0]?.images) {
             setImages(images);
-          }
         }
       } catch (error) {
         console.log(error);
@@ -37,9 +35,11 @@ const Gallery = () => {
     try {
       const username = localStorage.getItem("username");
       const { data } = await axios.post(`${baseURL}/getimages`, { username });
-      console.log(data);
-      setImages(data);
-      console.log("at line 39")      
+      
+      const {images} = data[0];
+        if(data){
+            setImages(images);
+        }
     } catch (error) {
       console.log(error);
     }
