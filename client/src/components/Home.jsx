@@ -60,8 +60,8 @@ const Home = () => {
           Open
         </button>
       </form>
-      {isLoading && <h1 className="text-red-500">loading...</h1>}
-      {isInvalidCodeLength && <h1 className="text-red-500">code length has to be atleast 3 characters</h1>}
+      {isLoading && <h1 className="text-white">please wait, opening...</h1>}
+      {isInvalidCodeLength && <h1 className="text-red-500">Code length has to be atleast 3 characters</h1>}
     </div>
   );
 };

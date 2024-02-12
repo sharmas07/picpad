@@ -83,7 +83,7 @@ const Gallery = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-[33rem] max-h-[33rem] bg-gray-800 p-3 rounded-2xl">
+    <div className="flex flex-col items-center justify-center min-h-[33rem] max-h-[33rem] bg-black p-3 rounded-2xl">
       <h1 className="text-4xl mb-8 text-white font-bold">Gallery</h1>
       <div className="flex flex-wrap justify-center gap-4 overflow-y-scroll min-h-[20rem] max-w-[44rem]">
         {images &&

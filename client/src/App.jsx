@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="main_wrapper flex flex-col items-center justify-center min-h-[36rem] bg-gray-800 m-4 rounded-[2rem]">
+      <div className="main_wrapper flex flex-col items-center justify-center min-h-[36rem] bg-black m-4 rounded-[2rem]">
       <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />}/>
